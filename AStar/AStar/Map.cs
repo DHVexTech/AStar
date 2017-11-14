@@ -22,12 +22,8 @@ namespace AStar
             endPoint = new Node(CreatePoint(TypeOfPoint.End, length)/* new Vector(6,0)*/, StateNode.NotTestedYet);
             nodeWallkable = new List<Node>();
             walls = new List<Vector>();
-            for (int w = 0; w < length * 2; w++)
+            for (int w = 0; w < length * 5; w++)
             {
-                //if (w != length / 2)
-                //{
-                //    walls.Add(/*CreatePoint(TypeOfPoint.Wall, length)*/new Vector(5, w));
-                //}
                 walls.Add(CreatePoint(TypeOfPoint.Wall, length));
             }
 

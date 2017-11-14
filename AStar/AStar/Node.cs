@@ -19,7 +19,6 @@ namespace AStar
         StateNode state;
         float g;
         float h;
-        float f;
         Node nodeParent;
 
         public Node(Vector pos, StateNode state)

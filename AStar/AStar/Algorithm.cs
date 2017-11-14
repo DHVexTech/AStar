@@ -59,7 +59,13 @@ namespace AStar
         public void CalculParameters(Node node, Node parentNode)
         {
             node.G = parentNode.G + 1;
-            node.H = Math.Abs(node.Position.X - this.map.EndPoint.Position.X) + Math.Abs(node.Position.Y - this.map.EndPoint.Position.Y);
+
+            // Manhattan Heuristic
+            //node.H = Math.Abs(node.Position.X - this.map.EndPoint.Position.X) + Math.Abs(node.Position.Y - this.map.EndPoint.Position.Y);
+
+            // Euclidean Heuristic
+            node.H = (float)(Math.Sqrt(Math.Pow(Math.Abs(node.Position.X - this.map.EndPoint.Position.X), 2) + Math.Pow(Math.Abs(node.Position.Y - this.map.EndPoint.Position.Y),2)));
+
             node.NodeParent = parentNode;
             node.StateNode = StateNode.Open;
         }
@@ -107,11 +113,6 @@ namespace AStar
                         break;
                     }
                 }
-                //while (node.NodeParent != null)
-                //{
-                //    path.Add(node.Position);
-                //    node = node.NodeParent;
-                //}
                 path.Reverse();
             }
             return path;
