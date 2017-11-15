@@ -13,13 +13,16 @@ namespace AStar
             int mapLength = 10;
             while (Console.ReadLine() != null)
             {
-                Map map = new Map(mapLength);
-                Algorithm algo = new Algorithm(map);
-                List<Vector> path = new List<Vector>();
-                path = algo.FindPath();
-                map.ConstructMap(path);
+                Map map = new Map(mapLength);                           // Create map
+                Algorithm algo = new Algorithm(map);                    // Start algo
 
-                for (int i = 0; i < 7; i++)
+                List<Vector> path = new List<Vector>();                 // Create the list
+                path = algo.FindPath();                                 // and get the path
+
+                map.ConstructMap(path);                                 // Show the map in console
+
+                        
+                for (int i = 0; i < 7; i++)                             // Separe different map
                 {
                     Console.WriteLine();
                     for (int o = 0; o < 70; o++)

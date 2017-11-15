@@ -53,6 +53,9 @@ namespace AStar
             }
         }
 
+        /// <summary>
+        /// Chebyshev
+        /// </summary>
         public float G
         {
             get
@@ -65,6 +68,9 @@ namespace AStar
             }
         }
 
+        /// <summary>
+        /// Heuristic
+        /// </summary>
         public float H
         {
             get

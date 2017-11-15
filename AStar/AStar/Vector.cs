@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AStar
 {
+    /// <summary>
+    /// Vector use for get the position of the node.
+    /// </summary>
     class Vector
     {
         int x;

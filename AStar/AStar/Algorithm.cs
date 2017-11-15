@@ -9,26 +9,21 @@ namespace AStar
     class Algorithm
     {
         Map map;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="map">Current map</param>
         public Algorithm(Map map)
         {
             this.map = map;
         }
 
-        public float Pythagore(Node entryPoint, Node endPoint)
-        {
-            if (endPoint.Position.X == entryPoint.Position.X)
-            {
-                return (float)Math.Abs(endPoint.Position.Y - entryPoint.Position.Y);
-            }
-            else if (endPoint.Position.Y == entryPoint.Position.Y)
-            {
-                return (float)Math.Abs(endPoint.Position.X - entryPoint.Position.X);
-            }
-            else
-            {
-                return (float)Math.Sqrt(Math.Abs(Math.Pow(entryPoint.Position.X - endPoint.Position.X, 2)) + Math.Abs(Math.Pow(entryPoint.Position.Y - endPoint.Position.Y, 2)));
-            }
-        }
+        /// <summary>
+        /// Get adjacent node for set her properties.
+        /// </summary>
+        /// <param name="entryNode">Center node / Actual node</param>
+        /// <returns></returns>
         public List<Node> GetAdjacentNode(Node entryNode)
         {
             List<Node> adjacentNode = new List<Node>();
@@ -42,6 +37,11 @@ namespace AStar
             return adjacentNode;
         }
 
+        /// <summary>
+        /// Get adjacent node for get the path. (need to use the method "GetAdjacentNode" before)
+        /// </summary>
+        /// <param name="entryNode">Center node / Actual node</param>
+        /// <returns></returns>
         public List<Node> GetAdjacentNodeForPath(Node entryNode)
         {
             List<Node> adjacentNode = new List<Node>();
@@ -53,23 +53,37 @@ namespace AStar
 
             return adjacentNode;
         }
-
+        /// <summary>
+        /// Calcul the properties for all node in the list.
+        /// </summary>
+        /// <param name="nodesAdjacent"></param>
+        /// <param name="parentNode"></param>
         public void CalculAdjacentNode(List<Node> nodesAdjacent, Node parentNode) => nodesAdjacent.ForEach(n => CalculParameters(n, parentNode));
 
+        /// <summary>
+        /// Calcul the properties for the node.
+        /// </summary>
+        /// <param name="node">Actual node</param>
+        /// <param name="parentNode">Previous node</param>
         public void CalculParameters(Node node, Node parentNode)
         {
             node.G = parentNode.G + 1;
 
             // Manhattan Heuristic
-            //node.H = Math.Abs(node.Position.X - this.map.EndPoint.Position.X) + Math.Abs(node.Position.Y - this.map.EndPoint.Position.Y);
+            node.H = Math.Abs(node.Position.X - this.map.EndPoint.Position.X) + Math.Abs(node.Position.Y - this.map.EndPoint.Position.Y);
 
             // Euclidean Heuristic
-            node.H = (float)(Math.Sqrt(Math.Pow(Math.Abs(node.Position.X - this.map.EndPoint.Position.X), 2) + Math.Pow(Math.Abs(node.Position.Y - this.map.EndPoint.Position.Y),2)));
+            //node.H = (float)(Math.Sqrt(Math.Pow(Math.Abs(node.Position.X - this.map.EndPoint.Position.X), 2) + Math.Pow(Math.Abs(node.Position.Y - this.map.EndPoint.Position.Y),2)));
 
             node.NodeParent = parentNode;
             node.StateNode = StateNode.Open;
         }
 
+        /// <summary>
+        /// Find the good path, starting by the Start node and finish by the Final node.
+        /// </summary>
+        /// <param name="node">Actual node</param>
+        /// <returns></returns>
         public bool Search(Node node)
         {
             node.StateNode = StateNode.Closed;
@@ -90,6 +104,10 @@ namespace AStar
             return false;
         }
 
+        /// <summary>
+        /// Get the good path, starting by the Final node and finish by the Starting node.
+        /// </summary>
+        /// <returns></returns>
         public List<Vector> FindPath()
         {
             List<Vector> path = new List<Vector>();
@@ -101,17 +119,10 @@ namespace AStar
                 {
                     List<Node> adjacentNode = GetAdjacentNodeForPath(node);
                     adjacentNode.Sort((n1, n2) => n1.G.CompareTo(n2.G));
-                    try
-                    {
-                        node = adjacentNode[0];
-                        path.Add(node.Position);
-                        node.StateNode = StateNode.NotTestedYet;
-                    }
-                    catch (ArgumentOutOfRangeException e)
-                    {
-                        Console.WriteLine(e.ToString());
-                        break;
-                    }
+                   
+                    node = adjacentNode[0];
+                    path.Add(node.Position);
+                    node.StateNode = StateNode.NotTestedYet;
                 }
                 path.Reverse();
             }

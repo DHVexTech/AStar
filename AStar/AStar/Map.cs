@@ -15,11 +15,16 @@ namespace AStar
         List<Vector> walls;
         List<Node> nodeWallkable;
 
+        /// <summary>
+        /// Constructor for the map.
+        /// Create the starting, ending node and walls 
+        /// </summary>
+        /// <param name="length"></param>
         public Map(int length)
         {
             rdm = new Random();
-            startPoint = new Node(CreatePoint(TypeOfPoint.Start, length)/* new Vector(3,0)*/, StateNode.NotTestedYet);
-            endPoint = new Node(CreatePoint(TypeOfPoint.End, length)/* new Vector(6,0)*/, StateNode.NotTestedYet);
+            startPoint = new Node(CreatePoint(TypeOfPoint.Start, length), StateNode.NotTestedYet);
+            endPoint = new Node(CreatePoint(TypeOfPoint.End, length), StateNode.NotTestedYet);
             nodeWallkable = new List<Node>();
             walls = new List<Vector>();
             for (int w = 0; w < length * 5; w++)
@@ -37,6 +42,9 @@ namespace AStar
 
         public Node StartPoint => this.startPoint;
 
+        /// <summary>
+        /// Create all nodes and add to the list.
+        /// </summary>
         public void CreatePoint()
         {
             for (int y = 0; y < length; y++)
@@ -51,7 +59,7 @@ namespace AStar
                     {
                         nodeWallkable.Add(endPoint);
                     }
-                    else if (!(from w in walls where w.X == x && w.Y == y select w).Any())
+                    else if (!(walls.Where(n => n.X == x && n.Y == y).Any()/*from w in walls where w.X == x && w.Y == y select w).Any()*/))
                     {
                         nodeWallkable.Add(new Node(new Vector(x, y), StateNode.NotTestedYet));
                     }
@@ -59,7 +67,10 @@ namespace AStar
             }
         }
 
-
+        /// <summary>
+        /// Boucle for create the map.
+        /// </summary>
+        /// <param name="path">The sortest path</param>
         public void ConstructMap(List<Vector> path)
         {
 
@@ -73,6 +84,12 @@ namespace AStar
             }
         }
 
+        /// <summary>
+        /// Create the Start/End node randomly.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
         public Vector CreatePoint(TypeOfPoint type, int max) => new Vector(rdm.Next(0, max), rdm.Next(0, max), type);
 
         public bool CheckPos(Vector subject, int x, int y) => subject.X == x && subject.Y == y; 
